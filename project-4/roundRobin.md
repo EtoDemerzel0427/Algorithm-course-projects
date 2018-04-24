@@ -149,7 +149,6 @@ def show_mat(mat, n):
         if len(virtual) > 0:
             x[squeeze(virtual)] = None # None implies no match that day
             
-        
         print('The schedule for player', i + 1, 'is:', x)
 ```
 
@@ -224,8 +223,8 @@ show_mat(roundRobin(14),14)
 
 我们需要验证算法的正确性。
 怎样的结果是正确的：
-* 每一行的数字是 $[1,n]$ 的不重复数字，且数字中不含行数。
-* 如果 $n$
+* 每一行是 $[1,n]$ 的不重复数字，且应包含除行数以外的所有数字。
+* 每一列除了轮空时有一个数字大于 $n$, 其他应是 $[1,n]$ 上的不重复数字，并且应该全部出现。 
 * 对所有的 $i$, 如果
 ```python
 schedule[i,j] = k
@@ -240,29 +239,63 @@ schedule[k-1,j] = i+1
 def check(mat, n):
     '''
     To check the correctness of our algorithm
+    
+    Parameters:
+    
+    mat -- the matrix gained from the function roundRobin.
+    
+    n -- the parameter for roundRobin. Actually it is needless, since we can
+    determine its value through mat's shape, but with it it is more convenient.
+    
+    Returns:
+    
+    if return True, it means our algorithm works correctly. Else it is incorrect.
     '''
+    # check the properties about rows
     for i in range(n):
-        b = in1d(list(range(1, n+1)), mat[i,:])
-        assert(squeeze(where(b == False)).shape == ())
-        if squeeze(where(b == False)) != i:
+        b = in1d(list(range(1, n+1)), mat[i,:]) # check whether the numbers from 1 to n is in the i-th row of mat
+        
+        
+        assert(squeeze(where(b == False)).shape == ()) # to assure there is only 1 number missing i.e. the row number
+        if squeeze(where(b == False)) != i:  # to check if the missing number is the row number
             print(squeeze(where(b == False)))
             return False
         
+        if i == n-1 and n&1 == 0:
+            pass # if n is even there is only n-1 columns
+        else:
+            c = in1d(list(range(1, n+1)), mat[:,i]) # check whether the numbers from 1 to n is in the i-th column of mat
+            if squeeze(where(c == False)).shape[0] != 0:
+                return False
+            
+            # check whether there at most 1 larger than n
+            d = in1d(mat[:,i], list(range(1,n+1))) 
+            skip = squeeze(where(d == False))
+            assert(skip.shape == () or skip.shape == (0,))
+            if skip.shape == (0,) and mat[skip, i] <= n:
+                return False
+            
+        # check whether schedule[i,j] = k implies schedule[k-1,h] = i+1
         for j in range(mat.shape[1]):
             k = int(mat[i,j])
             if mat[k-1,j] != i+1:
                 print(i)
                 print(mat[k,j])
                 return False
+            
+    
+    # check the properties about columns
+    
+        
     return True     
 ```
 
-我们检验 $n$ 在 $1-100$ 范围内算法的正确性： 
+由于循环赛参与者不太可能太多，我们仅检验 $n$ 在 $1-200$ 范围内算法的正确性： 
 
 
 ```python
 result = True
-for i in range(1,100):
+for i in range(1,201):
     result = result and check(roundRobin(i),i)
     
 print(result)
@@ -272,3 +305,74 @@ print(result)
 ​    
 
 这样，我们认为我们的算法是正确的。
+
+## Complexity analysis
+
+根据上面的讨论，我们可以得出 $$T(n) = T(\frac{n}{2}) + O(n^2)$$
+
+根据主定理，我们知道 $$T(n) = \Theta(n^2)$$
+下面我们通过测对不同大小的情况程序的运行时间来进行测试。
+
+
+```python
+import time
+
+def comp_test():
+    runtime = []
+    for i in range(1,1001):
+        tic = time.time()
+        roundRobin(i)
+        toc = time.time()
+        runtime.append(toc - tic)
+        if i % 50 == 0:
+            print('current:', i)
+    return runtime
+```
+
+
+```python
+runtime = comp_test()
+```
+
+    current: 50
+    current: 100
+    current: 150
+    current: 200
+    current: 250
+    current: 300
+    current: 350
+    current: 400
+    current: 450
+    current: 500
+    current: 550
+    current: 600
+    current: 650
+    current: 700
+    current: 750
+    current: 800
+    current: 850
+    current: 900
+    current: 950
+    current: 1000
+
+
+
+```python
+from matplotlib.pyplot import *
+% matplotlib inline
+
+plot(list(range(1,1001)), runtime)
+```
+
+
+
+
+    [<matplotlib.lines.Line2D at 0x2ab08a85c50>]
+
+
+
+
+![png](output_20_1.png)
+
+
+从上面的图像我们发现代码的运行时间大致与 $n$ 的大小成二次方关系，这验证了我们刚才的分析。
