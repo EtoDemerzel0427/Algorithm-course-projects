@@ -6,7 +6,7 @@ The coverage of this class is similar to the ___Introduction of Algorithms___.
 
 Prof: Wang Xiaoru
 
-**Update on Apr.21st:** add project 4
+**Update on Apr.21st:** add project 4\
 **Updata on June 6th：** add project 5
 
 **project 1**: the maximum subarray sum problem
