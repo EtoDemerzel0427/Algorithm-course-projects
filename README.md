@@ -2,7 +2,7 @@
 
 This repository includes my algorithm reports this semester.
 
-The coverage of this class is similar to the ___Introduction of Algorithms___.
+The coverage of this class is similar to the ___Introduction to Algorithms___. There are 5 projects in total.
 
 Prof: Wang Xiaoru
 
