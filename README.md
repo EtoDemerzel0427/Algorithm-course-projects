@@ -1,4 +1,4 @@
-# Algortihm-course-projects
+# Algorithm-course-projects
 
 This repository includes my algorithm reports this semester.
 
