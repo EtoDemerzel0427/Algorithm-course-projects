@@ -1,8 +1,8 @@
 # Algorithm-course-projects
 
-This repository includes my algorithm reports this semester.
+This repository includes my algorithm reports in *Spring 2018*.
 
-The coverage of this class is similar to the ___Introduction to Algorithms___. There are 5 projects in total.
+The coverage of this class is a small subset of the ___Introduction to Algorithms___. There are 5 projects in total, we implement the algorithms in different programming languages(as for me, I chose Python), test the correctness and efficiency of our codes, and, based on them, write reports on them.
 
 Prof: Wang Xiaoru
 
