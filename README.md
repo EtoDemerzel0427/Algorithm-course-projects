@@ -2,7 +2,9 @@
 
 This repository includes my algorithm reports in *Spring 2018*.
 
-The coverage of this class is a small subset of the ___Introduction to Algorithms___. There are 5 projects in total, we implement the algorithms in different programming languages(as for me, I chose Python), test the correctness and efficiency of our codes, and, based on them, write reports on them.
+The coverage of this class is a small subset of the ___Introduction to Algorithms___. 
+
+There are 5 projects in total, we implement the algorithms in different programming languages(as for me, I chose Python), test the correctness and efficiency of our codes, and, write full reports on these topics, analyzing the complexity, etc. For more details please view my reports.
 
 Prof: Wang Xiaoru
 
